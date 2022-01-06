@@ -39,13 +39,13 @@ export const trasformCasesData = (data) => {
             return temp
         })
         console.log(result)
+        
         const filteredResult = result.filter(item => {
-             if( item.state_name !== "" ) {
-                 return true
-             } else if(item.state_name === "") {
+            if(item.state_name === "") {
                  filterData["country"] = item
                  return false
              }
+             return true
 
         })
         filterData["state"] = filteredResult
