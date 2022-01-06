@@ -5,7 +5,7 @@ import axios from "axios"
 import { Statistic ,Button, DatePicker, version, Layout, Row, Col, Divider, Table, Tag, Space } from "antd";
 import "antd/dist/antd.css";
 import "./App.css";
-import { columnsMeta, trasformCasesData } from "./utils";
+import { trasformCasesData, getStateFilter } from "./utils";
 
 const interval = 2*60000;
 const { Header, Footer, Sider, Content } = Layout;
@@ -15,7 +15,9 @@ class App extends React.Component {
     super(props)
     this.state = {
       isLoading : false,
-      casesData : {}
+      casesData : {},
+      filteredInfo: null,
+      sortedInfo: null,
     }
 
   }
@@ -35,6 +37,13 @@ class App extends React.Component {
     })
 
   }
+  handleChange = (pagination, filters, sorter) => {
+    console.log('Various parameters', pagination, filters, sorter);
+    this.setState({
+      filteredInfo: filters,
+      sortedInfo: sorter,
+    });
+  };
 
   componentDidMount() {
     this.getData()
@@ -46,12 +55,52 @@ class App extends React.Component {
   }
 
   render(){
-    
-    const {casesData} = this.state
-
+    const {casesData, sortedInfo, filteredInfo } = this.state
     const filterData = trasformCasesData(casesData)
+    const stateFilter = filterData && getStateFilter(filterData.state)
 
-    console.log(filterData)
+    const columnsMeta = [{
+      title: 'State Name',
+      dataIndex: 'state_name',
+      key: 'state_name',
+      filters: stateFilter,
+      filteredValue: filteredInfo?.state_name || null,
+      onFilter: (value, record) => record.state_name.includes(value),
+      ellipsis: true,
+    },
+    {
+      title: 'Active',
+      dataIndex: 'new_active',
+      key: 'new_active',
+      sorter: (a, b) => a.new_active.length - b.new_active.length,
+      sortOrder: sortedInfo?.columnKey === 'new_active' && sortedInfo.order,
+      ellipsis: true,
+    },
+    {
+      title: 'Positive',
+      dataIndex: 'new_positive',
+      key: 'new_positive',
+      sorter: (a, b) => a.new_positive.length - b.new_positive.length,
+      sortOrder: sortedInfo?.columnKey === 'new_positive' && sortedInfo.order,
+      ellipsis: true,
+    },
+    {
+      title: 'Cured',
+      dataIndex: 'new_cured',
+      key: 'new_cured',
+      sorter: (a, b) => a.new_cured.length - b.new_cured.length,
+      sortOrder: sortedInfo?.columnKey === 'new_cured' && sortedInfo.order,
+      ellipsis: true,
+    },
+    {
+      title: 'Death(s)',
+      dataIndex: 'new_death',
+      key: 'new_death',
+      sorter: (a, b) => a.new_death.length - b.new_death.length,
+      sortOrder: sortedInfo?.columnKey === 'new_death' && sortedInfo.order,
+      ellipsis: true,
+    }
+  ];
  
     return(
       
@@ -71,7 +120,7 @@ class App extends React.Component {
         
         <Divider>Covid-19 State Wise Data</Divider>
         {
-          (filterData && filterData.state) ? <Table columns={columnsMeta} dataSource={filterData.state} /> : ""
+          (filterData && filterData.state) ? <Table columns={columnsMeta} dataSource={filterData.state} onChange={this.handleChange} /> : ""
         }
         
       </Content>

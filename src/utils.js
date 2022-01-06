@@ -1,30 +1,3 @@
-export const columnsMeta = [{
-    title: 'State Name',
-    dataIndex: 'state_name',
-    key: 'state_name',
-  },
-  {
-    title: 'Active',
-    dataIndex: 'new_active',
-    key: 'new_active',
-  },
-  {
-    title: 'Positive',
-    dataIndex: 'new_positive',
-    key: 'new_positive',
-  },
-  {
-    title: 'Cured',
-    dataIndex: 'new_cured',
-    key: 'new_cured',
-  },
-  {
-    title: 'Death(s)',
-    dataIndex: 'new_death',
-    key: 'new_death',
-  }
-];
-
 export const trasformCasesData = (data) => {
     let filterData = {}
     if(data.length > 0) {
@@ -51,4 +24,18 @@ export const trasformCasesData = (data) => {
         filterData["state"] = filteredResult
         return filterData
     } 
+}
+
+export const getStateFilter = (stateData) => {
+
+  let result = []
+  stateData.forEach(item => {
+    let temp = {}
+    temp["text"] = item.state_name
+    temp["value"] = item.state_name
+    result.push(temp)
+  })
+
+  return result
+
 }
