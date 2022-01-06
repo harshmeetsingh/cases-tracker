@@ -2,13 +2,13 @@ import './App.css';
 import React from 'react';
 
 import axios from "axios"
-import { Statistic ,Button, DatePicker, version, Layout, Row, Col, Divider, Table, Tag, Space } from "antd";
+import { Statistic, Layout, Row, Col, Divider, Table } from "antd";
 import "antd/dist/antd.css";
 import "./App.css";
 import { trasformCasesData, getStateFilter } from "./utils";
 
 const interval = 2*60000;
-const { Header, Footer, Sider, Content } = Layout;
+const { Header, Footer, Content } = Layout;
 
 class App extends React.Component {
   constructor(props) {
