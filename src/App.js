@@ -112,9 +112,9 @@ class App extends React.Component {
       <Content className="pageContent">
         {
         (filterData && filterData.country) ? <Row justify="space-around">
-        <Col span={3} offset={1}><Statistic title="Active Cases" value={filterData.country.new_active} /></Col>
-        <Col span={3} ><Statistic title="Discharged" value={filterData.country.new_cured} /></Col>
-        <Col span={3}><Statistic title="Deaths" value={filterData.country.new_death} /></Col>          
+        <Col  xs={10} sm={3} md={3} lg={3} xl={{ span: 3, offset: 1 }} offset={1}><Statistic title="Active Cases" value={filterData.country.new_active} /></Col>
+        <Col  xs={10} sm={3} md={3} lg={3} xl={{ span: 3 }} ><Statistic title="Discharged" value={filterData.country.new_cured} /></Col>
+        <Col  xs={10} sm={3} md={3} lg={3} xl={{ span: 3 }} ><Statistic title="Deaths" value={filterData.country.new_death} /></Col>          
         </Row> : ""
         }
         
